@@ -139,7 +139,7 @@ class VisonControl():
         return listangular
 
 def main():
-    filename="/data/ros/ur_ws/src/universal_robot/ur5_vision/usb_camera_calibration.yaml"
+    filename="/data/ros/ur_ws/src/universal_robot/ur5_vision/camera_sg.yaml"
     urdfname="/data/ros/ur_ws/src/universal_robot/ur_description/urdf/ur5.urdf"
     startuv=[[512,412],[312,412],[312,612],[512,612]]
     desiruv=[[612,412],[412,412],[412,612],[612,612]]

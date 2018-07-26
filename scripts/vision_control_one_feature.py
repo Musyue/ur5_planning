@@ -87,7 +87,7 @@ class VisonControl():
     """ read data from yaml, here it temporary uses the list exist"""
     def get_instrinc_param(self):
         data = numpy.array(
-            [1001.183545, 0.000000, 309.656972, 0.000000, 1002.891587, 270.692587, 0.000000, 0.000000, 1.000000])
+            [988.399069, 0.000000, 313.409913, 0.000000, 991.344079, 250.150860, 0.000000, 0.000000, 1.000000])
         instrinc_param = data.reshape((3, 3))
        # print(instrinc_param)
         return instrinc_param
@@ -116,9 +116,10 @@ class VisonControl():
     def vis2jac(self,uv,z):
         cam=self.get_cam_data()
         rh0=[0.0000032,0.0000032]
-        camf=0.6160908#m
+        camf=0.9958163#m
         kx = cam['kx']
         ky = cam['ky']
+        #--------------sgl-------------
         # print kx
         arfx=kx/camf
         arfy=ky/camf
@@ -189,19 +190,19 @@ class VisonControl():
         return listangular
 
 def main():
-    urdfname="/data/ros/ur_ws/src/universal_robot/ur5_planning/urdf/ur5.urdf"
-    filename="/data/ros/ur_ws/src/universal_robot/ur5_planning/yaml/camera_sg.yaml"
+    urdfname="/data/ros/ur_ws/src/ur3_controller/urdf/ur3.urdf"
+    filename="/data/ros/ur_ws/src/universal_robot/ur5_planning/yaml/cam_300_industry.yaml"
     # urdfname="/data/ros/ur_ws/src/universal_robot/ur_description/urdf/ur5.urdf"
 
-    desiruv=[[300,265]]
-    lambda1=-1.8
+    desiruv=[[168,169]]
+    lambda1=1.0
     #z=0.71593843
     detat=0.05
-
-    ace=1.0
-    vel=1.0
+    #z=1.0
+    ace=50
+    vel=0.1
     urt=0
-    ratet=2.8
+    ratet=30
     p0=VisonControl(filename,0,lambda1,urdfname)
 
 
@@ -214,7 +215,7 @@ def main():
 
     u_error_pub = rospy.Publisher("/feature_u_error", Float64, queue_size=10)
     v_error_pub = rospy.Publisher("/feature_v_error", Float64, queue_size=10)
-
+    z_depth_pub = rospy.Publisher("/camera_depth", Float64, queue_size=10)
 
     #give q to ur3
     ur_pub = rospy.Publisher("/ur_driver/URScript", String, queue_size=10)
@@ -233,6 +234,7 @@ def main():
             print "pos_dict\n",pos_dict[0][:3]
             print p0.get_uv_from_ar(pos_dict[0][:3])
             z=pos_dict[0][2]
+            z_depth_pub.publish(z)
             print "depth info z\n",z
         except:
             continue
