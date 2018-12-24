@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+import rospy
+from ur5_planning.msg import uv
+import time
+class XpRead():
+    def __init__(self):
+       # self.nodename=nodename
+        self.uvlist_buf=[]
+    def Init_node(self):
+        rospy.init_node("xpuv_node")
+        sub = rospy.Subscriber("/xp_uv/xp", uv, self.callback)
+        return sub
+    def callback(self,msg):
+        if len(self.uvlist_buf)==100:
+            self.uvlist_buf=self.uvlist_buf[1:]
+            self.uvlist_buf.append(list(msg.uvinfo))
+            #print "---------self.uvlist_buf",self.uvlist_buf
+
+        else:
+            self.uvlist_buf.append(list(msg.uvinfo))
+def main():
+    uv0=XpRead()
+    uv0.Init_node()
+    while not rospy.is_shutdown():
+        if len(uv0.uvlist_buf)==0:
+            print "wait data----\n"
+            continue
+        else:
+            time.sleep(1)
+            print "--------------\n",uv0.uvlist_buf[-1]
+            print "length---------------\n",len(uv0.uvlist_buf)
+        #uv0.uvlist=[]
+    #rospy.spin()
+if __name__=="__main__":
+    main()

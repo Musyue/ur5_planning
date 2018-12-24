@@ -20,6 +20,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   trajectory_msgs
   ur_msgs
+  message_generation
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -56,11 +58,15 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
+add_message_files(
+    FILES
 #   Message1.msg
 #   Message2.msg
-# )
+    uv.msg
+    tileuv.msg
+    forcecontrol_msg.msg
+    structlight.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -77,10 +83,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   control_msgs#   geometry_msgs#   sensor_msgs#   std_msgs#   trajectory_msgs#   ur_msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   std_msgs
+ #  control_msgs#   geometry_msgs#   sensor_msgs#   std_msgs#   trajectory_msgs#   ur_msgs
+    )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -116,6 +123,7 @@ catkin_package(
 #  LIBRARIES ur5_planning
 #  CATKIN_DEPENDS actionlib control_msgs controller_manager geometry_msgs hardware_interface roscpp rospy sensor_msgs std_msgs tf trajectory_msgs ur_msgs
 #  DEPENDS system_lib
+CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -125,7 +133,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -206,3 +214,11 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(ur_forcecontrol_v1 src/ur_forcecontrol_v1.cpp src/ur5_kinematics.cpp)
+add_dependencies(ur_forcecontrol_v1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(ur_forcecontrol_v1 ${catkin_LIBRARIES})
+
+add_executable(ur_forcecontrol_v2 src/ur_forcecontrol_v2.cpp src/ur5_kinematics.cpp)
+add_dependencies(ur_forcecontrol_v2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(ur_forcecontrol_v2 ${catkin_LIBRARIES})

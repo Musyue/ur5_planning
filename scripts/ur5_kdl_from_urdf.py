@@ -44,7 +44,9 @@ class UR_robot:
         return J
 
     # def get_fk_pose(self):
-
+    def get_ik_pose(self,pose):
+        q_ik = self.kdl_kin.inverse(pose)  # inverse kinematics
+        print "q_ik", q_ik
     def test_fk_ik_jacob(self):
         q = self.q
         pose = self.kdl_kin.forward(q)  # forward kinematics (returns homogeneous 4x4 matrix)

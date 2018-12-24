@@ -420,10 +420,32 @@ class Kinematic:
             j += 6
         #print result_list
         return result_list
-    def my_inverse(self):
-        pass
 
-    def best_sol(self,weights,q_guess):
+    def best_sol(self,weights,q_guess,T):
+        #q_guess=q
+        sols=self.get_ik_data(T)
+        valid_sols = []
+        for sol in sols:
+            test_sol = numpy.ones(6) * 9999.
+            for i in range(6):
+                for add_ang in [-2. * numpy.pi, 0, 2. * numpy.pi]:
+                    test_ang = sol[i] + add_ang
+                    if (abs(test_ang) <= 2. * numpy.pi and
+                            abs(test_ang - q_guess[i]) < abs(test_sol[i] - q_guess[i])):
+                        test_sol[i] = test_ang
+            if numpy.all(test_sol != 9999.):
+                valid_sols.append(test_sol)
+        if len(valid_sols) == 0:
+            return None
+        best_sol_ind = numpy.argmin(numpy.sum((weights * (valid_sols - numpy.array(q_guess))) ** 2, 1))
+        print "#########################the best sol##################"
+        print valid_sols[best_sol_ind]
+        return valid_sols[best_sol_ind]
+    def best_sol_new(self,T,error_boundary):
+        #error_boundary = 0.5
+
+        print self.get_ik_data( T)
+    def best_sol_1(self,weights,q_guess):
         #q_guess=q
         T=self.Forward()
         sols=self.get_ik_data(T)
@@ -473,10 +495,11 @@ def main():
     q3=[0,0,0,0,0,0]
     q4=[3.3985266666666667, -1.3765411111111112, -1.944881111111111, 0.14112555555555556, -4.9428833333333335, 5.663687777777778]
     c=Kinematic(q)
-    c.display(0,3)
-    weights=[1.] * 6
-    c.best_sol(weights,q)
-    c.best_sol_for_other_py(weights,q,c.Forward())
-    print type(c.Forward())
+    # c.display(0,3)
+    # weights=[1.] * 6
+    # c.best_sol(weights,q)
+    # c.best_sol_for_other_py(weights,q,c.Forward())
+    # print type(c.Forward())
+    c.best_sol_new(c.Forward())
 if __name__ == '__main__':
     main()

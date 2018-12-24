@@ -2,10 +2,10 @@
 import rospy
 from std_msgs.msg import String
 from ar_track_alvar_msgs.msg import AlvarMarkers
-
+from Quaternion import *
 from frompitoangle import *
 import os, time
-
+import numpy
 TAGNUM = 1
 
 class arReader():
@@ -76,8 +76,24 @@ class arReader():
         # pos_buff.append( new_data )
         return pos_buff, ave_ar_pose
 
+    def q2t(self):
+        for i in xrange(len(self.ave_pos_dict)):
+            trans=self.ave_pos_dict[i][:3]
+            mtrans=numpy.matrix(trans)
+            print "mtrans",mtrans.T
+            addnum=[0,0,0,1]
+            addnum==numpy.matrix(addnum)
+            print "addnum",addnum
+            s = self.ave_pos_dict[i][6]
+            v1 = self.ave_pos_dict[i][3]
+            v2 = self.ave_pos_dict[i][4]
+            v3 = self.ave_pos_dict[i][5]
+            q = quaternion(s, v1, v2, v3)
+            print "unit",q.unit()
+            q2ro=q.r().T
 
-
+            numpy.vstack((numpy.hstack((q2ro,mtrans.T)),addnum))
+            print "q2r-------",i,numpy.vstack((numpy.hstack((q2ro,mtrans.T)),addnum))
 def list_element_plus( v1, v2):
     res = list(map( lambda x: x[0] + x[1] , zip(v1,v2)))
     # print "plus :", res
@@ -100,11 +116,20 @@ def main():
     # rospy.spin()
     while not rospy.is_shutdown():
         # pass
-        print ( "now_pos: ", ar_info_reader.pos_dict)
+        # try:
+        if len(ar_info_reader.pos_dict)!=0:
+            print ( "now_pos: ", ar_info_reader.pos_dict)
 
-        print ("ave_pos_ur:", ar_info_reader.ave_pos_dict)
-
-
+            print ("ave_pos_ur:", ar_info_reader.ave_pos_dict)
+            ar_info_reader.q2t()
+            # s=ar_info_reader.ave_pos_dict[0][6]
+            # v1=ar_info_reader.ave_pos_dict[0][5]
+            # v2=ar_info_reader.ave_pos_dict[0][4]
+            # v3=ar_info_reader.ave_pos_dict[0][3]
+            # q = quaternion(s, v1, v2, v3)
+            # print "q2r----------\n",q.r()
+        # except:
+        #     pass
 if __name__ == "__main__":
     # v1 = [1,2,43.0,5]
     # v2 = [3, 1, 0.9, 2.9 ]

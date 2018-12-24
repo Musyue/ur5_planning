@@ -13,6 +13,12 @@ def getangle(listb):
         temp=i/3.14*180
         lista.append((i,temp))
     return lista
+def getangle_new(listb):
+    lista=[]
+    for i in listb:
+        temp=i/3.14*180
+        lista.append(temp)
+    return lista
 def display(listc):
     listpi=[]
     listangle=[]
@@ -53,8 +59,9 @@ if __name__=="__main__":
     Q6=[-16.84,-54.61,56.91,-186.31,-73.86,-65.08]
     Q7=[-3.04,-52.20,49.33,-180.78,-84.35,-65.07]
     Q8=[84.81, -124.65, -78.10, 99.59, -96.62, 89.99]
+    display(getpi(Q8))
     #display(getpi(Q0))
-    reslut.append(display(getpi(Q8)))
+    #reslut.append(display(getpi(Q8)))
     #display(getpi(Q1))
     #reslut.append(display(getpi(Q1)))
     # display(getpi(Q2))
