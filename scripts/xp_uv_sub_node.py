@@ -14,7 +14,7 @@ class XpRead():
         if len(self.uvlist_buf)==100:
             self.uvlist_buf=self.uvlist_buf[1:]
             self.uvlist_buf.append(list(msg.uvinfo))
-            #print "---------self.uvlist_buf",self.uvlist_buf
+            #print "---------self.cross_uv_buf",self.cross_uv_buf
 
         else:
             self.uvlist_buf.append(list(msg.uvinfo))

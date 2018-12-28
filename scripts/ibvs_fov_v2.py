@@ -286,7 +286,7 @@ def main():
             time.sleep(3)
             continue
         else:
-            print "xp uvlist_buf",xpuv_get.uvlist_buf[-1]
+            print "xp cross_uv_buf",xpuv_get.uvlist_buf[-1]
             uvlist.append(xpuv_get.uvlist_buf[-1])
 
         print "##############################################################"
@@ -294,11 +294,11 @@ def main():
         now_uv_pub.publish(uvlist[0])
         print "##############################################################"
         print "###########################################################"
-        # if len(uv_get.uvlist_buf)==0:
+        # if len(uv_get.cross_uv_buf)==0:
         #     print "wait desire data sub---\n"
         #     time.sleep(3)
-        # print "desire uv------\n", uv_get.uvlist_buf[-1]
-        # desiruv.append(uv_get.uvlist_buf[-1])
+        # print "desire uv------\n", uv_get.cross_uv_buf[-1]
+        # desiruv.append(uv_get.cross_uv_buf[-1])
         #get error
         print "##############################################################"
         feature_error=p0.get_feature_error(desiruv,uvlist[0])

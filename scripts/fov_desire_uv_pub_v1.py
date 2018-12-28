@@ -51,7 +51,7 @@ class UVpub():
                 f4th_uv = msg.f4th_uv
                 self.tile_0_buf.append(
                     [tile_id, cen_uv.uvinfo, f1th_uv.uvinfo, s2th_uv.uvinfo, t3th_uv.uvinfo, f4th_uv.uvinfo])
-                # print "---------self.uvlist_buf",self.uvlist_buf
+                # print "---------self.cross_uv_buf",self.cross_uv_buf
             else:
                 tile_id = msg.tile_id
                 cen_uv = msg.cen_uv
@@ -74,7 +74,7 @@ class UVpub():
                 f4th_uv = msg.f4th_uv
                 self.tile_1_buf.append(
                     [tile_id, cen_uv.uvinfo, f1th_uv.uvinfo, s2th_uv.uvinfo, t3th_uv.uvinfo, f4th_uv.uvinfo])
-                # print "---------self.uvlist_buf",self.uvlist_buf
+                # print "---------self.cross_uv_buf",self.cross_uv_buf
             else:
                 tile_id = msg.tile_id
                 cen_uv = msg.cen_uv

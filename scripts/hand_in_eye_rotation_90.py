@@ -19,6 +19,8 @@ class HandInEye():
         self.Te1=Te1
         self.T2=T2
         self.Te2=Te2
+
+
     def caculat_C_D(self,xTe1,xTe0,xT0,xT1):
         #Bc1 pos1 extrinsic parameters
         #Ac1 pos0 extrinsic parameters

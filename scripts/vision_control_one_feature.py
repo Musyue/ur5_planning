@@ -89,7 +89,7 @@ class VisonControl():
     """ read data from yaml, here it temporary uses the list exist"""
     def get_instrinc_param(self):
         data = numpy.array(
-            [627.260603, 0.000000, 316.404078, 0.000000, 622.895967, 251.341039, 0.000000, 0.000000, 1.000000])
+            [463.041118, 0.000000, 325.630067, 0.000000, 463.122860, 254.002469, 0.000000, 0.000000, 1.000000])
         instrinc_param = data.reshape((3, 3))
        # print(instrinc_param)
         return instrinc_param
@@ -118,7 +118,7 @@ class VisonControl():
     def vis2jac(self,uv,z):
         cam=self.get_cam_data()
         rh0=[0.0000032,0.0000032]
-        camf=0.6240429#m
+        camf=0.45888#0.6240429#m
         kx = cam['kx']
         ky = cam['ky']
         #--------------sgl-------------
@@ -243,13 +243,13 @@ class VisonControl():
 
 def main():
     urdfname="/data/ros/ur_ws_yue/src/ur5_planning/urdf/ur5.urdf"
-    filename="/data/ros/ur_ws_yue/src/ur5_planning/yaml/cam_500_logitech.yaml"
+    filename="/data/ros/ur_ws_yue/src/ur5_planning/yaml/cam_500_industry.yaml"
     # urdfname="/data/ros/ur_ws/src/universal_robot/ur_description/urdf/ur5.urdf"
     desiruv=[]
     # desiruv=[[168,169]]
     lambda1=-3.666666
     detat=0.05
-    z=0.45
+    z=0.35
     ace=50
     vel=0.1
     urt=0
