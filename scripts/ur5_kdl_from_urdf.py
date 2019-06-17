@@ -12,7 +12,7 @@ from pykdl_utils.kdl_kinematics import KDLKinematics
 class UR_robot:
     def __init__(self):
         # rospy.init_node("import_ur3_from_urdf")
-        self.robot = self.init_robot("/data/ros/ur_ws/src/universal_robot/ur5_planning/urdf/ur3.urdf")
+        self.robot = self.init_robot("/data/ros/ur_ws_yue/src/ur5_planning/urdf/ur3.urdf")
         self.kdl_kin = KDLKinematics(self.robot, "base_link", "ee_link")
         self.tree = kdl_tree_from_urdf_model(self.robot)
         self.chain = self.tree.getChain("base_link", "ee_link")

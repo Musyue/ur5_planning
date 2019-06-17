@@ -93,7 +93,8 @@ class arReader():
             q2ro=q.r().T
 
             numpy.vstack((numpy.hstack((q2ro,mtrans.T)),addnum))
-            print "q2r-------",i,numpy.vstack((numpy.hstack((q2ro,mtrans.T)),addnum))
+            print "q2r-------",i,numpy.vstack((numpy.hstack((q2ro,mtrans.T)),addnum)).tolist()
+
 def list_element_plus( v1, v2):
     res = list(map( lambda x: x[0] + x[1] , zip(v1,v2)))
     # print "plus :", res

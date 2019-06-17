@@ -19,7 +19,7 @@ class DetectTile:
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("/usb_cam/image_raw", Image, self.callback)
         self.rgb_image=None
-        self.cross_pub = rospy.Publisher("/cross_uv", tileuv, queue_size=10)
+        self.cross_pub = rospy.Publisher("/cross_uv", uv, queue_size=10)
         self.resuv=[]
     def callback(self,data):
         try:

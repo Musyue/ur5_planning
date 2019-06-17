@@ -64,8 +64,10 @@ add_message_files(
 #   Message2.msg
     uv.msg
     tileuv.msg
+    structure_point.msg
     forcecontrol_msg.msg
     structlight.msg
+    IMUoutvel.msg
 )
 
 ## Generate services in the 'srv' folder

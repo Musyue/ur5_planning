@@ -26,8 +26,8 @@
             <remap from="image" to="/usb_cam/image_raw"/>
             <param name="autosize" value="true" />
     </node>
-    <!--netft_utils-->
-    <node name="netft_node" pkg="netft_utils" type="netft_node" respawn="false" output="screen" args="192.168.1.84"/>
+    <!--netft_utils
+    <node name="netft_node" pkg="netft_utils" type="netft_node" respawn="false" output="screen" args="192.168.1.84"/>-->
     <!-- ar track
     <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
         <param name="marker_size"           type="double" value="$(arg marker_size)" />

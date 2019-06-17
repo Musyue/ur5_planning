@@ -1,0 +1,17 @@
+roslaunch ur5_planning ibvs_run.lunch
+--->[1]
+rosrun ur5_planning impedance_control_opencv_detect_cross_line.py
+--->[2]
+rosrun ur5_planning  impedance_control_uv_design_pub.py
+--->[3]
+ rosrun ur5_planning impedance_control_opencv_draw_circle.py
+ --->[4]
+rosrun ur5_planning impedance_vision_control_one_cross_line.py
+
+roslaunch ur5_planning ibvs_run.lunch
+--->[1]
+rosrun ur5_planning  impedance_control_uv_design_pub.py
+--->[2]
+ rosrun ur5_planning impedance_control_ar_marker_draw_circle.py
+ --->[4]
+rosrun ur5_planning impedance_vision_control_one_ar.py

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Primitive operations for 3x3 orthonormal and 4x4 homogeneous matrices.
 
@@ -493,59 +495,98 @@ def rotvec2tr(theta, v):
 #     elif y != None and z != None:
 #         return concatenate((concatenate((eye(3), mat([x, y, z]).T), 1), mat([0, 0, 0, 1])))
 
+def transl(x, y=None, z=None):
+    """
+    Create or decompose translational homogeneous transformations.
+
+    Create a homogeneous transformation
+    ===================================
+
+        - T = transl(v)
+        - T = transl(vx, vy, vz)
+
+        The transformation is created with a unit rotation submatrix.
+        The translational elements are set from elements of v which is
+        a list, array or matrix, or from separate passed elements.
+
+    Decompose a homogeneous transformation
+    ======================================
+
+
+        - v = transl(T)
+
+        Return the translation vector
+    """
+
+    if y == None and z == None:
+        x = mat(x)
+        try:
+            if ishomog(x):
+                return x[0:3, 3].reshape(3, 1)
+            else:
+                return concatenate((concatenate((eye(3), x.reshape(3, 1)), 1), mat([0, 0, 0, 1])))
+        except AttributeError:
+            n = len(x)
+            r = [[], [], []]
+            for i in range(n):
+                r = concatenate((r, x[i][0:3, 3]), 1)
+            return r
+    elif y != None and z != None:
+        return concatenate((concatenate((eye(3), mat([x, y, z]).T), 1), mat([0, 0, 0, 1])))
+
 
 # ###################################### Skew symmetric transform
 #
 #
-# def skew(*args):
-#     """
-#     Convert to/from skew-symmetric form.  A skew symmetric matrix is a matrix
-#     such that M = -M'
-#
-#     Two call forms
-#
-#         -ss = skew(v)
-#         -v = skew(ss)
-#
-#     The first form builds a 3x3 skew-symmetric from a 3-element vector v.
-#     The second form takes a 3x3 skew-symmetric matrix and returns the 3 unique
-#     elements that it contains.
-#
-#     """
-#
-#     def ss(b):
-#         return matrix([
-#             [0, -b[2], b[1]],
-#             [b[2], 0, -b[0]],
-#             [-b[1], b[0], 0]]);
-#
-#     if len(args) == 1:
-#         # convert matrix to skew vector
-#         b = args[0];
-#
-#         if isrot(b):
-#             return 0.5 * matrix([b[2, 1] - b[1, 2], b[0, 2] - b[2, 0], b[1, 0] - b[0, 1]]);
-#         elif ishomog(b):
-#             return vstack((b[0:3, 3], 0.5 * matrix([b[2, 1] - b[1, 2], b[0, 2] - b[2, 0], b[1, 0] - b[0, 1]]).T));
-#
-#         # build skew-symmetric matrix
-#
-#         b = arg2array(b);
-#         if len(b) == 3:
-#             return ss(b);
-#         elif len(b) == 6:
-#             r = hstack((ss(b[3:6]), mat(b[0:3]).T));
-#             r = vstack((r, mat([0, 0, 0, 1])));
-#             return r;
-#
-#     elif len(args) == 3:
-#         return ss(args);
-#     elif len(args) == 6:
-#         r = hstack((ss(args[3:6]), mat(args[0:3]).T));
-#         r = vstack((r, mat([0, 0, 0, 1])));
-#         return r;
-#     else:
-#         raise ValueError;
+def skew(*args):
+    """
+    Convert to/from skew-symmetric form.  A skew symmetric matrix is a matrix
+    such that M = -M'
+
+    Two call forms
+
+        -ss = skew(v)
+        -v = skew(ss)
+
+    The first form builds a 3x3 skew-symmetric from a 3-element vector v.
+    The second form takes a 3x3 skew-symmetric matrix and returns the 3 unique
+    elements that it contains.
+
+    """
+
+    def ss(b):
+        return matrix([
+            [0, -b[2], b[1]],
+            [b[2], 0, -b[0]],
+            [-b[1], b[0], 0]]);
+
+    if len(args) == 1:
+        # convert matrix to skew vector
+        b = args[0];
+
+        if isrot(b):
+            return 0.5 * matrix([b[2, 1] - b[1, 2], b[0, 2] - b[2, 0], b[1, 0] - b[0, 1]]);
+        elif ishomog(b):
+            return vstack((b[0:3, 3], 0.5 * matrix([b[2, 1] - b[1, 2], b[0, 2] - b[2, 0], b[1, 0] - b[0, 1]]).T));
+
+        # build skew-symmetric matrix
+
+        b = arg2array(b);
+        if len(b) == 3:
+            return ss(b);
+        elif len(b) == 6:
+            r = hstack((ss(b[3:6]), mat(b[0:3]).T));
+            r = vstack((r, mat([0, 0, 0, 1])));
+            return r;
+
+    elif len(args) == 3:
+        return ss(args);
+    elif len(args) == 6:
+        r = hstack((ss(args[3:6]), mat(args[0:3]).T));
+        r = vstack((r, mat([0, 0, 0, 1])));
+        return r;
+    else:
+        raise ValueError;
 
 
 def tr2diff(t1, t2):
@@ -666,3 +707,23 @@ def r2t(R):
     """
 
     return concatenate((concatenate((R, zeros((3, 1))), 1), mat([0, 0, 0, 1])))
+
+def tr2delta(Tstar,Tt):#
+    """
+    Caculate two homogeneous matrix delta:
+            delta = | tt-tstar |
+                     | vex(Rt（RstarT-I3x3) |
+    @type Tstar: expection 4x4 homogeneous rotation matrix
+    @param Tt: real time 4x4 homogeneous rotation matrix(numpy)
+    @rtype: 4x4 homogeneous matrix
+    @return: 6x1 matrix
+    """
+    pstar = transl(Tstar)
+    pt = transl(Tt)
+    part1=pt-pstar
+    Rt=t2r(Tt)
+    Rstar=t2r(Tstar)
+    part2=skew(dot(Rt,Rstar.T)-eye(3))
+
+    return column_stack((part1.reshape(1,3),part2.reshape(1,3)))
+

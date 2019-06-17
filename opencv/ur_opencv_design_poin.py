@@ -23,8 +23,8 @@ from ar_track_alvar_msgs.msg import AlvarMarkers
 
 import cv2
 
-uv_center_pos = [313, 250]
-radius = 100
+uv_center_pos = [336,259]
+radius = 150
 blue = (255, 0, 0)
 red = (0, 0, 255)
 
@@ -70,7 +70,8 @@ class cam_canvas():
     #     self.now_uv = msg.uvinfo
     def get_instrinc_param(self):
         data = np.array(
-            [463.041118, 0.000000, 325.630067, 0.000000, 463.122860, 254.002469, 0.000000, 0.000000, 1.000000])
+            [1105.61470391168, 0.000000, 336.565975, 0.000000, 1113.53327634572, 259.04877, 0.000000, 0.000000, 1.000000])
+            #[463.041118, 0.000000, 325.630067, 0.000000, 463.122860, 254.002469, 0.000000, 0.000000, 1.000000])
         instrinc_param = data.reshape((3, 3))
         # print(instrinc_param)
         return instrinc_param
@@ -87,6 +88,7 @@ class cam_canvas():
         cam_pos = cam_pos.T / cam_pos[2]
         imgpos = np.dot( self.get_instrinc_param(), cam_pos)
         imgpos = imgpos[0:2].tolist()
+        print("imgpos:",imgpos)
         self.now_uv = imgpos
 
     """  
@@ -118,7 +120,7 @@ class cam_canvas():
 
         self.add_in_real_traj_list( now_uv )
         self.add_in_design_traj_list( design_uv )
-        frame = self.draw_traj(frame, tnum, self.design_traj_list, red, 4 )
+        frame = self.draw_traj(frame, tnum, self.design_traj_list, red, 5 )
         frame = self.draw_traj(frame, tnum, self.real_traj_list, blue, 2 )
 
         return frame

@@ -35,7 +35,8 @@
         <remap from="camera_image"  to="$(arg cam_image_topic)" />
         <remap from="camera_info"   to="$(arg cam_info_topic)" />
     </node>
-
+    <!--netft_utils-->
+    <node name="netft_node" pkg="netft_utils" type="netft_node" respawn="false" output="screen" args="192.168.1.84"/>
     <!-- rviz view/-->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ur5_planning)/rviz/ar_track_camera.rviz"/>
 

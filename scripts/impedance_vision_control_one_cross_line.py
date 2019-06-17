@@ -268,14 +268,14 @@ def main():
     # urdfname="/data/ros/ur_ws/src/universal_robot/ur_description/urdf/ur5.urdf"
     desiruv=[]
     # desiruv=[[168,169]]
-    lambda1=-3.666666
+    lambda1=-1.666666
     # lambda1 = -3.666666
     detat=0.05
     z=0.35
     ace=50
     vel=0.1
     urt=0
-    ratet=5
+    ratet=30
     p0=VisonControl(filename,0,lambda1,urdfname)
 
 
@@ -302,7 +302,7 @@ def main():
         desiruv=[]
         uvlist=[]
         if len(p0.cross_uv)>0:
-            now_uv_list = p0.cross_uv
+            now_uv_list = p0.cross_uv#from detecting camera
             now_u_list,now_v_list=p0.get_list_uv(now_uv_list)
             print "np.mean(now_u_list),np.mean(now_v_list)",np.mean(now_u_list),np.mean(now_v_list)
             uvlist.append([now_uv_list[-1][0],now_uv_list[-1][1]])
@@ -312,7 +312,7 @@ def main():
                 time.sleep(4)
 
             if len(uv_get.uvlist_buf) != 0:
-                print "desire uv------\n", uv_get.uvlist_buf[-1]
+                print "desire uv------\n", uv_get.uvlist_buf[-1]#frome desire circle
                 desiruv.append(uv_get.uvlist_buf[-1])
                 # get error
                 print "##############################################################"
